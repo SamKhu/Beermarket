@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}
+    Регистрация
+{% endblock %}
+
+{% block content %}
+<body class="text-center">
+    <div class="container">
+        <form method="post" class="form-register" style="color: white">
+
+            {{ form.hidden_tag() }}
+
+            <br>
+            <h1 class="h3 font-weight-normal">
+                Создание Вашей учетной записи
+            </h1>
+            <br>
+            {{ form.username.label() }}
+            {{ form.username(class='form-control', placeholder='Создайте Имя Пользователя') }}
+
+            {{ form.email.label() }}
+            {{ form.email(class='form-control', placeholder='Укажите адрес электронной почты') }}
+
+            {{ form.password_1.label() }}
+            {{ form.password_1(class='form-control', placeholder='Задайте пароль для входа') }}
+
+            {{ form.password_2.label() }}
+            {{ form.password_2(class='form-control', placeholder='Повторите пароль для подтверждения') }}
+            <br>
+
+
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+
+        </form>
+    </div>
+</body>
+
+{% endblock %}
