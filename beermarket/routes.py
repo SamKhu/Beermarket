@@ -30,10 +30,10 @@ def market_page():
 def register_page():
     form=RegisterForm()
     if form.validate_on_submit():
-        user_to_create= User(
+        user_to_create=User(
             user_name=form.username.data,
             email=form.email.data,
-            password_hash=form.password_1.data
+            password=form.password_1.data
         )
         db.session.add(user_to_create)
         db.session.commit()
