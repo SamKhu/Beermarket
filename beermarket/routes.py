@@ -2,7 +2,7 @@ from beermarket import app, db
 from flask import render_template, flash, redirect, url_for
 from beermarket.models import Item, User
 from beermarket.forms import RegisterForm, LoginForm
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required
 
 @app.route("/")
 @app.route("/home")
@@ -22,6 +22,7 @@ def bottles_page():
     return render_template('bottles.html')
 
 @app.route("/market")
+@login_required
 def market_page():
     items=Item.query.all()
     return render_template('market.html', items=items)
@@ -37,6 +38,10 @@ def register_page():
         )
         db.session.add(user_to_create)
         db.session.commit()
+        login_user(user_to_create)
+        flash(f"Регистрация прошла успешно! Вы в системе под именем: {user_to_create.user_name}", category="success")
+
+
         return redirect (url_for('market_page'))
     if form.errors != {}:
         for err_msg in form.errors.values():
