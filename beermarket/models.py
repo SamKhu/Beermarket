@@ -1,6 +1,11 @@
-from beermarket import db, bcrypt
+from beermarket import db, bcrypt, login_manager
+from flask_login import UserMixin
 
-class User(db.Model):
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+class User(db.Model, UserMixin):
     id=db.Column(db.Integer(), primary_key=True)
     user_name=db.Column(db.String(length=30), nullable=False, unique=True)
     email=db.Column(db.String(length=30), nullable=False, unique=True)
@@ -15,6 +20,8 @@ class User(db.Model):
     def password(self, plain_text_password):
         self.password_hash=bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
 
+    def check_password_correction(self, attempted_password):
+        return bcrypt.check_password_hash(self.password_hash, attempted_password)
 
 
 
